@@ -1,5 +1,7 @@
 import { type SanityDocument } from "next-sanity";
 
+import ProjectsSection from "@/app/components/ProjectsSection";
+
 import { client } from "@/sanity/client";
 
 const POSTS_QUERY = `*[
@@ -61,34 +63,7 @@ export default function Home() {
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="py-20 px-6 bg-gray-50">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center">Projects</h2>
-          <div className="mt-12 grid md:grid-cols-3 gap-8">
-            {/* Example Project Card */}
-            <div className="bg-white rounded-2xl shadow p-6 hover:shadow-lg transition">
-              <Image
-                src="/project1.png"
-                alt="Project screenshot"
-                width={400}
-                height={250}
-                className="rounded-xl"
-              />
-              <h3 className="mt-4 text-xl font-semibold">Project Title</h3>
-              <p className="mt-2 text-gray-600 text-sm">
-                Short description of what the project does and what tech stack
-                it uses.
-              </p>
-              <Link
-                href="https://github.com"
-                className="mt-4 inline-flex items-center text-blue-600 hover:underline"
-              >
-                View on GitHub <ArrowRight className="ml-1 h-4 w-4" />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      <ProjectsSection/>
 
       {/* Skills Section */}
       <section id="skills" className="py-20 px-6 max-w-5xl mx-auto text-center">
