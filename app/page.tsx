@@ -24,10 +24,13 @@ export default async function Home() {
       <section className="relative flex flex-col md:flex-row items-center justify-center h-[80vh] text-center md:text-left px-6 bg-gradient-to-br from-blue-50 to-white">
   {/* Profile Picture */}
   <div className="flex-shrink-0 mb-6 md:mb-0 md:mr-8">
-    <img
+    <Image
       src="/keaton-smith-profile.jpg"
       alt="Keaton Smith"
+      width={160}
+      height={160}
       className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-blue-600 shadow-lg"
+      priority
     />
   </div>
 
