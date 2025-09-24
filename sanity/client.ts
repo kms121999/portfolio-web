@@ -7,6 +7,6 @@ import { createClient } from "next-sanity";
 export const client = createClient({
   projectId: SANITY_PROJECT_ID,
   dataset: "production",
-  apiVersion: "2024-01-01",
+  apiVersion: "2025-09-23",
   useCdn: false,
 });
