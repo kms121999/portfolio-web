@@ -4,22 +4,20 @@ import ProjectsSection from "@/app/components/ProjectsSection";
 
 import { client } from "@/sanity/client";
 
-const POSTS_QUERY = `*[
-  _type == "post"
-  && defined(slug.current)
-]|order(publishedAt desc)[0...12]{_id, title, slug, publishedAt}`;
-
-const options = { next: { revalidate: 30 } };
-
 // app/page.tsx
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Github, Linkedin, Mail } from "lucide-react";
 
 // Example: Later, fetch data from Sanity
-// import { getProjects, getSkills } from "@/sanity/queries";
+// TODO import { getProjects, getSkills } from "@/sanity/queries";}
 
-export default function Home() {
+export const revalidate = 3600; // revalidate every hour
+
+export default async function Home() {
+  const siteSettings: SanityDocument = await client.fetch(`*[_type == "siteSettings"][0]`);
+  const socialMediaLinks = siteSettings?.socialMediaLinks;
+
   return (
     <main className="flex flex-col">
       {/* Hero Section */}
@@ -92,11 +90,11 @@ export default function Home() {
           <Link href="mailto:your@email.com" aria-label="Email">
             <Mail className="h-6 w-6 text-gray-700 hover:text-blue-600" />
           </Link>
-          <Link href="https://github.com" target="_blank" aria-label="GitHub">
+          <Link href={socialMediaLinks?.github ?? ""} target="_blank" aria-label="GitHub">
             <Github className="h-6 w-6 text-gray-700 hover:text-blue-600" />
           </Link>
           <Link
-            href="https://linkedin.com"
+            href={socialMediaLinks?.linkedin ?? ""}
             target="_blank"
             aria-label="LinkedIn"
           >
