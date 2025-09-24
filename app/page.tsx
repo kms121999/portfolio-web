@@ -2,12 +2,13 @@ import { type SanityDocument } from "next-sanity";
 
 import ProjectsSection from "@/app/components/ProjectsSection";
 
-import { client } from "@/sanity/client";
+import { client, urlFor } from "@/sanity/client";
 
 // app/page.tsx
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Github, Linkedin, Mail } from "lucide-react";
+import { Github, Linkedin, Mail } from "lucide-react";
+
 
 // Example: Later, fetch data from Sanity
 // TODO import { getProjects, getSkills } from "@/sanity/queries";}
@@ -15,8 +16,9 @@ import { ArrowRight, Github, Linkedin, Mail } from "lucide-react";
 export const revalidate = 3600; // revalidate every hour
 
 export default async function Home() {
-  const siteSettings: SanityDocument = await client.fetch(`*[_type == "siteSettings"][0]`);
-  const socialMediaLinks = siteSettings?.socialMediaLinks;
+  const profile: SanityDocument = await client.fetch(`*[_type == "profile"][0]`);
+  const socialMediaLinks = profile?.socialMediaLinks;
+
 
   return (
     <main className="flex flex-col">
@@ -25,8 +27,8 @@ export default async function Home() {
   {/* Profile Picture */}
   <div className="flex-shrink-0 mb-6 md:mb-0 md:mr-8">
     <Image
-      src="/keaton-smith-profile.jpg"
-      alt="Keaton Smith"
+      src={urlFor(profile?.profileImage).url()}
+      alt={profile.profileImage?.alt || "Profile Picture"}
       width={160}
       height={160}
       className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-blue-600 shadow-lg"
