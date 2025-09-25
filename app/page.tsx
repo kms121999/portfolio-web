@@ -1,8 +1,9 @@
-import { type SanityDocument } from "next-sanity";
+import { type SanityDocument, PortableText } from "next-sanity";
 
 import ProjectsSection from "@/app/components/ProjectsSection";
 
 import { client, urlFor } from "@/sanity/client";
+
 
 // app/page.tsx
 import Image from "next/image";
@@ -39,10 +40,10 @@ export default async function Home() {
   {/* Text Content */}
   <div>
     <h1 className="text-5xl font-extrabold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-      Hi, I’m Keaton
+      Hi, I’m {profile.firstName}
     </h1>
     <p className="mt-4 text-xl text-gray-700 max-w-xl">
-      I build infrastructure, automate workflows, and craft clean web experiences for small businesses.
+      {profile.content.tagline}
     </p>
     <div className="flex gap-4 mt-6 justify-center md:justify-start">
       <a href="#projects" className="px-6 py-3 rounded-2xl bg-blue-600 text-white font-medium hover:bg-blue-700 transition">
@@ -58,11 +59,26 @@ export default async function Home() {
       {/* About Section */}
       <section id="about" className="py-20 px-6 max-w-5xl mx-auto text-center">
         <h2 className="text-3xl font-bold">About Me</h2>
-        <p className="mt-6 text-gray-600 leading-relaxed max-w-3xl mx-auto">
-          I’ve been coding for 13 years, starting with small games in Python and
-          evolving into building scalable systems with modern frameworks. I love
-          learning, solving problems, and sharing knowledge with others.
-        </p>
+        <div className="mt-6 text-gray-600 leading-relaxed max-w-3xl mx-auto">
+          <PortableText
+            value={profile.content.aboutMe}
+            components={{
+              types: {
+                image: ({ value }) => {
+                  return (
+                    <Image
+                      src={urlFor(value).url()}
+                      alt={value.alt || "About me image"}
+                      width={500}
+                      height={300}
+                      className="rounded-lg"
+                    />
+                  );
+                },
+              },
+            }}
+          />
+        </div>
       </section>
 
       {/* Projects Section */}
