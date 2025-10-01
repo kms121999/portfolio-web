@@ -9,6 +9,7 @@ import { client, urlFor } from "@/sanity/client";
 import Image from "next/image";
 import Link from "next/link";
 import { Github, Linkedin, Mail } from "lucide-react";
+import SkillsSection from "./components/SkillsSection";
 
 
 // Example: Later, fetch data from Sanity
@@ -17,8 +18,12 @@ import { Github, Linkedin, Mail } from "lucide-react";
 export const revalidate = 3600; // revalidate every hour
 
 export default async function Home() {
+  // TODO: these queries should be cached with a ttl
   const profile: SanityDocument = await client.fetch(`*[_type == "profile"][0]`);
   const socialMediaLinks = profile?.socialMediaLinks;
+
+  // TODO integrate skills into page
+  // Skills should be clickable to trigger expanding details?
 
 
   return (
@@ -85,21 +90,7 @@ export default async function Home() {
       <ProjectsSection/>
 
       {/* Skills Section */}
-      <section id="skills" className="py-20 px-6 max-w-5xl mx-auto text-center">
-        <h2 className="text-3xl font-bold">Skills</h2>
-        <div className="mt-12 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-          {["React", "Next.js", "TypeScript", "Tailwind", "Node.js", "PostgreSQL", "Docker"].map(
-            (skill) => (
-              <div
-                key={skill}
-                className="p-4 bg-gray-100 rounded-xl shadow-sm hover:shadow-md transition"
-              >
-                {skill}
-              </div>
-            )
-          )}
-        </div>
-      </section>
+      <SkillsSection/>
 
       {/* Contact Section */}
       <section id="contact" className="py-20 px-6 bg-gray-50 text-center">
