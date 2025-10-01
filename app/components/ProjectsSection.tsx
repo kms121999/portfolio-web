@@ -55,7 +55,6 @@ function isGenericImage(url: string): boolean {
 }
 
 async function fetchReposAndReadmes() : Promise<Project[]> {
-  console.log(process.env.NODE_ENV)
   // Get all public repositories
   const allRepos = await octokit.paginate(octokit.repos.listForUser, { username: GITHUB_USERNAME });
   console.log(`Fetched ${allRepos.length} repositories for user ${GITHUB_USERNAME} with id: ${allRepos[0]?.owner?.id}`);
@@ -69,7 +68,6 @@ async function fetchReposAndReadmes() : Promise<Project[]> {
       if (imageUrl && isGenericImage(imageUrl)) {
         imageUrl = ""; // Clear generic image URLs
       }
-      console.log(`Repo: ${repo.name}, Image: ${imageUrl}`);
 
       const { data: contributors } = await octokit.repos.listContributors({
         owner: repo.owner.login,
@@ -89,6 +87,8 @@ async function fetchReposAndReadmes() : Promise<Project[]> {
       };
     })
   );
+
+  console.log(`Filtered to ${projects.length} projects ready for display.`);
 
   return projects;
 }
