@@ -20,14 +20,14 @@ export type Skill = {
   _updatedAt: string;
   _rev: string;
   name: string;
-  categories?: Array<{
+  categories: Array<{
     category: {
       _ref: string;
       _type: "reference";
       _weak?: boolean;
       [internalGroqTypeReferenceTo]?: "skillCategory";
     };
-    displayPriority?: number;
+    displayPriority: number;
     _key: string;
   }>;
   parentSkills?: Array<{
@@ -46,7 +46,18 @@ export type SkillCategory = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  category: string;
+  name: string;
+  highlightSettings?: {
+    isHighlighted: boolean;
+    count?: number;
+  };
+  childrenCategories?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "skillCategory";
+  }>;
 };
 
 export type Profile = {
@@ -68,8 +79,8 @@ export type Profile = {
     alt?: string;
     _type: "image";
   };
-  firstName?: string;
-  lastName?: string;
+  firstName: string;
+  lastName: string;
   address?: {
     city?: string;
     state?: string;
@@ -79,6 +90,7 @@ export type Profile = {
     github?: string;
   };
   content?: {
+    welcome?: string;
     tagline?: string;
     aboutMe?: Array<{
       children?: Array<{
@@ -353,7 +365,7 @@ export type AllSanitySchemaTypes = Skill | SkillCategory | Profile | BlockConten
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./sanity/skills.ts
 // Variable: SKILL_QUERY
-// Query: *[_type == "skill"] | order(name asc)
+// Query: *[_type == "skill"]
 export type SKILL_QUERYResult = Array<{
   _id: string;
   _type: "skill";
@@ -361,14 +373,14 @@ export type SKILL_QUERYResult = Array<{
   _updatedAt: string;
   _rev: string;
   name: string;
-  categories?: Array<{
+  categories: Array<{
     category: {
       _ref: string;
       _type: "reference";
       _weak?: boolean;
       [internalGroqTypeReferenceTo]?: "skillCategory";
     };
-    displayPriority?: number;
+    displayPriority: number;
     _key: string;
   }>;
   parentSkills?: Array<{
@@ -380,11 +392,33 @@ export type SKILL_QUERYResult = Array<{
   }>;
   tags?: Array<string>;
 }>;
+// Variable: CATEGORY_QUERY
+// Query: *[_type == "skillCategory"]
+export type CATEGORY_QUERYResult = Array<{
+  _id: string;
+  _type: "skillCategory";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name: string;
+  highlightSettings?: {
+    isHighlighted: boolean;
+    count?: number;
+  };
+  childrenCategories?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "skillCategory";
+  }>;
+}>;
 
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "*[_type == \"skill\"] | order(name asc)": SKILL_QUERYResult;
+    "*[_type == \"skill\"]": SKILL_QUERYResult;
+    "*[_type == \"skillCategory\"]": CATEGORY_QUERYResult;
   }
 }
