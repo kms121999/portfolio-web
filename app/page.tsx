@@ -10,6 +10,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { Github, Linkedin, Mail } from "lucide-react";
 import SkillsSection from "./components/SkillsSection";
+import ContactForm from "./components/ContactForm";
+import { ToggleButton, ToggleChildren } from "./components/ToggleChildren";
 
 
 // Example: Later, fetch data from Sanity
@@ -93,15 +95,16 @@ export default async function Home() {
       <SkillsSection/>
 
       {/* Contact Section */}
+      {/* TODO: update contact section. Also implement testing */}
       <section id="contact" className="py-20 px-6 bg-gray-50 text-center">
         <h2 className="text-3xl font-bold">Get in Touch</h2>
         <p className="mt-4 text-gray-600">
           Interested in working together? Let’s connect.
         </p>
         <div className="mt-8 flex justify-center gap-6">
-          <Link href="mailto:your@email.com" aria-label="Email">
+          <ToggleButton id="contact-form" aria-label="Toggle Contact Form">
             <Mail className="h-6 w-6 text-gray-700 hover:text-blue-600" />
-          </Link>
+          </ToggleButton>
           <Link href={socialMediaLinks?.github ?? ""} target="_blank" aria-label="GitHub">
             <Github className="h-6 w-6 text-gray-700 hover:text-blue-600" />
           </Link>
@@ -113,6 +116,9 @@ export default async function Home() {
             <Linkedin className="h-6 w-6 text-gray-700 hover:text-blue-600" />
           </Link>
         </div>
+        <ToggleChildren id="contact-form">
+          <ContactForm />
+        </ToggleChildren>
       </section>
 
       {/* Footer */}
