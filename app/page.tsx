@@ -10,9 +10,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Github, Linkedin, Mail } from "lucide-react";
 import SkillsSection from "./components/SkillsSection";
-import ContactForm from "./components/ContactForm";
-import { ToggleButton, ToggleChildren } from "./components/ToggleChildren";
-
+import { MessageButton } from "./components/MessageButton";
 
 // Example: Later, fetch data from Sanity
 // TODO import { getProjects, getSkills } from "@/sanity/queries";}
@@ -102,9 +100,9 @@ export default async function Home() {
           Interested in working together? Let’s connect.
         </p>
         <div className="mt-8 flex justify-center gap-6">
-          <ToggleButton id="contact-form" aria-label="Toggle Contact Form">
+          <MessageButton aria-label="Open Contact Form">
             <Mail className="h-6 w-6 text-gray-700 hover:text-blue-600" />
-          </ToggleButton>
+          </MessageButton>
           <Link href={socialMediaLinks?.github ?? ""} target="_blank" aria-label="GitHub">
             <Github className="h-6 w-6 text-gray-700 hover:text-blue-600" />
           </Link>
@@ -116,9 +114,6 @@ export default async function Home() {
             <Linkedin className="h-6 w-6 text-gray-700 hover:text-blue-600" />
           </Link>
         </div>
-        <ToggleChildren id="contact-form">
-          <ContactForm />
-        </ToggleChildren>
       </section>
 
       {/* Footer */}
