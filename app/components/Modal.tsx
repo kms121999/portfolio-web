@@ -13,6 +13,8 @@ type ModalProps = {
 
 export default function Modal({ isOpen, onClose, children, rememberState = false }: ModalProps) {
   const modalRoot = useRef<HTMLElement | null>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
+  const clickStartedOutside = useRef(false);
 
   // Create portal container
   useEffect(() => {
@@ -33,6 +35,33 @@ export default function Modal({ isOpen, onClose, children, rememberState = false
       document.body.style.overflow = "";
     }
   }, [isOpen]);
+  
+  // Handle outside clicks
+  useEffect(() => {
+    if (!isOpen) return;
+    // Track clicks
+    const handleMouseDown = (e: MouseEvent) => {
+      if (!modalRef.current) return;
+      clickStartedOutside.current = !modalRef.current.contains(e.target as Node);
+    };
+
+    const handleMouseUp = (e: MouseEvent) => {
+      if (!modalRef.current) return;
+      const endedOutside = !modalRef.current.contains(e.target as Node);
+      if (clickStartedOutside.current && endedOutside) {
+        onClose();
+      }
+    };
+
+    document.addEventListener("mousedown", handleMouseDown);
+    document.addEventListener("mouseup", handleMouseUp);
+
+    return () => {
+      document.removeEventListener("mousedown", handleMouseDown);
+      document.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [isOpen, onClose]);
+
 
   if (!modalRoot.current || (!isOpen && !rememberState)) return null;
 
@@ -41,12 +70,10 @@ export default function Modal({ isOpen, onClose, children, rememberState = false
       className={`fixed inset-0 flex items-center justify-center bg-black/40 transition-opacity duration-200 ${
         isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
       }`}
-      onClick={onClose}
     >
       <FocusTrap
         active={isOpen}
         focusTrapOptions={{
-          clickOutsideDeactivates: true,
           escapeDeactivates: () => {
             onClose();
             return true;
@@ -54,6 +81,7 @@ export default function Modal({ isOpen, onClose, children, rememberState = false
         }}
       >
         <div
+          ref={modalRef}
           className={`relative bg-white rounded-2xl shadow-xl p-8 max-w-lg w-[90%] transform transition-all duration-200 ${
             isOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
           }`}
