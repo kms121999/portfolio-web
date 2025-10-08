@@ -9,14 +9,26 @@ type ContactFormProps = {
 };
 
 export default function ContactForm({ onSubmit }: ContactFormProps) {
-  const [state, formAction, isPending] = useActionState(sendMessage, {success: false});
+  const [state, formAction, isPending] = useActionState(sendMessage, { success: false });
   const [dots, setDots] = useState(0);
+
+  // Controlled form state
+  const [formValues, setFormValues] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormValues((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
   // Handle success and error states
   useEffect(() => {
     if (state.success) {
       toast.success("Message sent!");
       onSubmit();
+      setFormValues({ name: "", email: "", message: "" });
     } else if (state.error) {
       toast.error(`Error: ${state.error}`);
     }
@@ -33,12 +45,19 @@ export default function ContactForm({ onSubmit }: ContactFormProps) {
 
   return (
     <>
-      <h2 className="text-2xl sm:text-3xl font-bold mb-8 text-center">Send Me a Message</h2>
-      <form className="space-y-6 flex flex-col" action={formAction}>
+      <h2 className="text-2xl sm:text-3xl font-bold mb-8 text-center">
+        Send Me a Message
+      </h2>
+      <form
+        className="space-y-6 flex flex-col"
+        action={formAction}
+      >
         <input
           type="text"
           name="name"
           placeholder="Your Name"
+          value={formValues.name}
+          onChange={handleChange}
           disabled={isPending}
           className={`
             w-full rounded-xl border border-gray-300 px-4 py-3
@@ -49,6 +68,8 @@ export default function ContactForm({ onSubmit }: ContactFormProps) {
           type="email"
           name="email"
           placeholder="you@example.com"
+          value={formValues.email}
+          onChange={handleChange}
           disabled={isPending}
           className={`
             w-full rounded-xl border border-gray-300 px-4 py-3
@@ -59,6 +80,8 @@ export default function ContactForm({ onSubmit }: ContactFormProps) {
           name="message"
           rows={5}
           placeholder="Your message..."
+          value={formValues.message}
+          onChange={handleChange}
           disabled={isPending}
           className={`
             w-full rounded-xl border border-gray-300 px-4 py-3
