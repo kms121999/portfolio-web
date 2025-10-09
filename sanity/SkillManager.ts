@@ -58,10 +58,8 @@ function getCategoryChildren(categoryId: string) {
 function getChildrenCategories(skillId: string) {
   const skill = allSkills[skillId];
 
-  console.log("Getting children categories for skill:", skillId, skill);
   if (!skill) {
     console.warn("Skill not found:", skillId);
-    console.log(`Available skills:`, Object.keys(allSkills));
     return {};
   }
   if (skill.childrenCategories) return skill.childrenCategories;
