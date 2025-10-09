@@ -13,6 +13,7 @@
     "@octokit/rest": "^22.0.0",
     "@prisma/client": "^6.17.0",
     "@sanity/image-url": "^1.1.0",
+    "@stackframe/stack": "^2.8.41",
     "cheerio": "^1.1.2",
     "focus-trap-react": "^11.0.4",
     "lucide-react": "^0.540.0",
