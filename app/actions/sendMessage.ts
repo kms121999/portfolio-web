@@ -1,10 +1,7 @@
 'use server';
 
-type DataStructure = {
-  name: string;
-  email: string;
-  message: string;
-}
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
 
 type FormState = {
   success: boolean;
@@ -12,15 +9,21 @@ type FormState = {
 }
 
 export async function sendMessage(_prevState: FormState, data: FormData): Promise<FormState> {
-  const parsedData: DataStructure = {
-    name: data.get("name") as string,
-    email: data.get("email") as string,
-    message: data.get("message") as string,
-  };
+  const name = data.get("name")?.toString().trim();
+  const email = data.get("email")?.toString().trim();
+  const message = data.get("message")?.toString().trim();
 
-  console.log("Message received:", parsedData);
+  if (!name || !email || !message) {
+  return { success: false, error: "All fields are required." };
+  }
 
-  await new Promise((resolve) => setTimeout(resolve, 3000));
-
-  return { success: true };
+  try {
+    console.log("Message received:", { name, email, message });
+    await prisma.message.create({ data: { name, email, message } });
+    return { success: true };
+  } catch (err: unknown) {
+    const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+    console.error("Error sending message:", errorMessage);
+    return { success: false, error: "Try again later" };
+  }
 }
