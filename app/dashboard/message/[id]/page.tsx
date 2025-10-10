@@ -13,7 +13,6 @@ export default async function MessagePage({ params }: Props) {
   const allParams = await params;
   const messageId = allParams.id;
   const message = await getMessageById(messageId);
-  console.log("Fetched message:", message);
 
   if (!message) return <p>Message not found.</p>;
 

@@ -22,12 +22,10 @@ export default function ReadStatusToggle({ messageId, read: readProp }: Props) {
 
     if (read) {
       markAsUnread(messageId)
-      .then((result) => console.log("Marked as unread:", result))
       .then(() => setRead(false))
       .finally(() => setIsPending(false));
     } else {
       markAsRead(messageId)
-      .then((result) => console.log("Marked as read:", result))
       .then(() => setRead(true))
       .finally(() => setIsPending(false));
     }

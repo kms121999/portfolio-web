@@ -57,7 +57,6 @@ function isGenericImage(url: string): boolean {
 async function fetchReposAndReadmes() : Promise<Project[]> {
   // Get all public repositories
   const allRepos = await octokit.paginate(octokit.repos.listForUser, { username: GITHUB_USERNAME });
-  console.log(`Fetched ${allRepos.length} repositories for user ${GITHUB_USERNAME} with id: ${allRepos[0]?.owner?.id}`);
 
   // Filter repos for displayable qualities
   const filteredRepos = allRepos.filter(repo => repo.description);
@@ -88,7 +87,6 @@ async function fetchReposAndReadmes() : Promise<Project[]> {
     })
   );
 
-  console.log(`Filtered to ${projects.length} projects ready for display.`);
 
   return projects;
 }

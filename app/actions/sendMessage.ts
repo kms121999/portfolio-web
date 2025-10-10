@@ -18,7 +18,6 @@ export async function sendMessage(_prevState: FormState, data: FormData): Promis
   }
 
   try {
-    console.log("Message received:", { name, email, message });
     await prisma.message.create({ data: { name, email, message } });
     return { success: true };
   } catch (err: unknown) {

@@ -25,7 +25,7 @@ type ChildCategory = {
   skills: SimpleSkill[];
 }
 
-const CACHE_DURATION_MS = 5 * 60 * 1000;
+const CACHE_DURATION_MS = 60 * 60 * 1000;
 
 const cacheLastUpdated = new Date(0);
 
