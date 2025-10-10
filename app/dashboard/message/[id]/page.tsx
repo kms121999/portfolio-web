@@ -1,6 +1,4 @@
-import canReadWrite from "@/lib/canReadWrite";
-import { markAsRead, markAsUnread, getMessageById } from "@/app/actions/messageActions";
-import { stackServerApp } from "@/stack/server";
+import { getMessageById } from "@/app/actions/messageActions";
 import ReadStatusToggle from "./ReadStatusToggle";
 
 interface Props {

@@ -1,7 +1,6 @@
 'use client';
 
 import { markAsRead, markAsUnread } from "@/app/actions/messageActions";
-import { useUser } from "@stackframe/stack";
 import { useState } from "react";
 
 type Props = {
